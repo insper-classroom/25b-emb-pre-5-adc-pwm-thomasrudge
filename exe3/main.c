@@ -27,6 +27,7 @@ void process_task(void *p) {
     int data = 0;
     int A[5];
     int numero = 0;
+    double soma = 0;
 
     while (true) {
 
@@ -36,12 +37,16 @@ void process_task(void *p) {
             if (numero < 5){
                 A[numero] = data;
                 numero++;
+                soma += data;
             }
             else{
                 int temp1 = A[1];
                 int temp2 = A[2];
                 int temp3 = A[3];
                 int temp4 = A[4];
+
+                soma -= A[0];
+                soma += data;
 
                 A[0] = temp1;
                 A[1] = temp2;
@@ -51,10 +56,9 @@ void process_task(void *p) {
                 
                 double media;
 
-                for (int i = 0 ; i<5 ; i++){
-                    media += A[i];
-                }
-                media = media / 5;
+                
+
+                media = soma / 5;
 
                 printf("media movel = %f\n" , media);
             }
