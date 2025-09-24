@@ -42,15 +42,15 @@ bool timer_1_callback(repeating_timer_t *rt) {
     gpio_set_dir(PIN_LED_B , GPIO_OUT);
      
 
-    uint16_t result;
-    float tensao;
+    
     repeating_timer_t timer_0;
     adc_select_input(2); // Select ADC input 1 (GPIO27)
     
 
     while (1) {
 
-        
+        uint16_t result;
+        float tensao;
         result = adc_read();
         //sleep_ms(100);
         tensao = result * conversion_factor;
