@@ -20,10 +20,70 @@
   * 1..2.0V: 150 ms
   * 2..3.3V: 400 ms
   */
- int main() {
-     stdio_init_all();
 
-     while (1) {
+volatile int timer_on = 0;
+volatile int azul = 0;
+bool timer_1_callback(repeating_timer_t *rt) {
+    azul = !azul;
+    gpio_put(PIN_LED_B , azul);
+    timer_on = 0;
    
+    
+    return false; // keep repeating
+}
+
+ int main() {
+    stdio_init_all();
+    
+    adc_init();
+    adc_gpio_init(28);
+
+    gpio_init(PIN_LED_B);
+    gpio_set_dir(PIN_LED_B , GPIO_OUT);
+     
+
+    uint16_t result;
+    float tensao;
+    repeating_timer_t timer_0;
+    adc_select_input(2); // Select ADC input 1 (GPIO27)
+    
+
+    while (1) {
+
+        
+        result = adc_read();
+        sleep_ms(100);
+        tensao = result * conversion_factor;
+        
+        
+        if (tensao < 1){
+            timer_on = 0;
+            gpio_put(PIN_LED_B , 0);
+        }
+
+        
+        
+        if (tensao > 1 && !timer_on){
+            
+            
+            
+
+            if(tensao < 2){
+                
+                add_repeating_timer_ms(150, timer_1_callback, NULL, &timer_0);
+                timer_on = 1;
+
+            }
+            else{
+                
+                add_repeating_timer_ms(450, timer_1_callback, NULL, &timer_0);
+                timer_on = 1;
+
+            }
+
+        }
+        
+        
+
      }
  }
