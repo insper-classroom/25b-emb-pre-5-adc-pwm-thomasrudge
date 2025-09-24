@@ -52,7 +52,7 @@ bool timer_1_callback(repeating_timer_t *rt) {
 
         
         result = adc_read();
-        sleep_ms(100);
+        //sleep_ms(100);
         tensao = result * conversion_factor;
         
         
